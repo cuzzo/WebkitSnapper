@@ -1,0 +1,44 @@
+#! /bin/bash
+
+url=''
+image='image.png'
+sleeptime=20
+display=99
+
+if ! options=$(getopt -u -o u:i:s:d: -l url:,image:,sleep-time:,display:, -- "$@")
+then
+	exit 1
+fi
+
+set -- $options
+while [ $# -gt 0 ] ; do
+	case $1 in
+	-u|--url) url="$2" ; shift;;
+	-i|--image) image="$2" ; shift;;
+	-s|--sleep-time) sleeptime="$2" ; shift;;
+	-d|--display) display="$2" ; shift;;
+	(--) shift; break;;
+	(-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
+	(*) break;;
+	esac
+	shift
+done
+
+if [ -c $image ] ; then
+	rm $image
+fi
+
+# start xvfb
+Xvfb :$display -screen 1 1280x720x24 &
+xvfbPID=$!
+
+# start chrome
+DISPLAY=:$display.1 google-chrome -kiosk $url &
+
+# capture image
+sleep $sleeptime
+DISPLAY=:$display.1 import -window root $image
+
+# clean up when done
+kill -9 $xvfbPID
+killall google-chrome
