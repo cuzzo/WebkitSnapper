@@ -4,8 +4,10 @@ url=''
 image='image.png'
 sleeptime=20
 display=99
+width=1280
+height=720
 
-if ! options=$(getopt -u -o u:i:s:d: -l url:,image:,sleep-time:,display:, -- "$@")
+if ! options=$(getopt -u -o u:i:s:d:w:h: -l url:,image:,sleep-time:,display:,width:,height:, -- "$@")
 then
 	exit 1
 fi
@@ -17,6 +19,8 @@ while [ $# -gt 0 ] ; do
 	-i|--image) image="$2" ; shift;;
 	-s|--sleep-time) sleeptime="$2" ; shift;;
 	-d|--display) display="$2" ; shift;;
+	-w|--width) width="$2" ; shift;;
+	-h|--height) height="$2" ; shift;;
 	(--) shift; break;;
 	(-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
 	(*) break;;
@@ -29,7 +33,7 @@ if [ -c $image ] ; then
 fi
 
 # start xvfb
-Xvfb :$display -screen 1 1280x720x24 &
+Xvfb :$display -screen 1 "$width"x"$height"x24 &
 xvfbPID=$!
 
 # start chrome
