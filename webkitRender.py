@@ -14,7 +14,7 @@ class WKWindow(gtk.Window):
 
 	def renderHTML(self, uri, width, height):
 		view = webkit.WebView() 
-		self.sw = gtk.ScrolledWindow()
+		self.sw = gtk.Window()
 		self.sw.add(view)
 
 		self.connect("destroy", gtk.main_quit)
