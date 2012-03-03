@@ -36,8 +36,8 @@ fi
 Xvfb :$display -screen 1 "$width"x"$height"x24 &
 xvfbPID=$!
 
-# start chrome
-DISPLAY=:$display.1 webkitRender.py $uri &
+# display webpage
+DISPLAY=:$display.1 webkitRender.py $uri $width $height &
 
 # capture image
 sleep $sleeptime
