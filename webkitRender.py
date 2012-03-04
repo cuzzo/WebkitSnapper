@@ -8,21 +8,18 @@ import webkit
 class WKWindow(gtk.Window):
 	def __init__(self, uri, width, height):
 		gtk.Window.__init__(self,gtk.WINDOW_TOPLEVEL)
-		self.sw = None
 
 		self.renderHTML(uri, width, height)
 
 	def renderHTML(self, uri, width, height):
-		view = webkit.WebView() 
-		self.sw = gtk.Window()
-		self.sw.add(view)
+		view = webkit.WebView()
+		self.add(view)
 
 		self.connect("destroy", gtk.main_quit)
 
 		#self.fullscreen()
 		self.set_size_request(1280, 720)
 		self.move(0, 0)
-		self.add(self.sw)
 		self.show_all()
 
 		view.open(uri)
