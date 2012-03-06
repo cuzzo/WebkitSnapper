@@ -18,7 +18,7 @@ class WKWindow(gtk.Window):
 		self.connect("destroy", gtk.main_quit)
 
 		#self.fullscreen()
-		self.set_size_request(1280, 720)
+		self.set_size_request(width, height)
 		self.move(0, 0)
 		self.show_all()
 
